@@ -10,7 +10,7 @@ nodes_links = [
     ["D", "E"],
     ["F", "G"],
     ["H"],
-    ["I", "G"],
+    ["G", "I"],
     ["J"],
     ["J"],
     [],
@@ -18,26 +18,16 @@ nodes_links = [
     []
 ]
 
-# caching data for fast access:
-node_dict = {}
-node_list : list[Node] = []
+result = gal.create_graph(nodes_list, nodes_links)
 
-# creating all nodes:
-for node_name in nodes_list:
-    node = Node(node_name, [])
-    node_dict[node_name] = node
-    node_list.append(node)
+node_dict = result[0]
+node_list = result[1]
 
-# linking all nodes:
-for i in range(0, len(nodes_links)):
-    if len(nodes_links[i]) > 0:
-        for name in nodes_links[i]:
-            node_list[i].link_node(node_dict[name])
+# check:
+# for node in node_list:
+#     print(node)
 
-# just for check:
-# for i in node_list:
-    # print(i)
-
-# list = gal.width_search(node_dict["A"], node_dict["J"])
 gal.restart_nodes(node_list)
-gal.depth_search(node_dict["A"], node_dict["G"])
+gal.width_search(node_dict["A"], node_dict["J"])
+# gal.restart_nodes(node_list)
+# gal.depth_search(node_dict["A"], node_dict["J"])
