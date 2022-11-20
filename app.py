@@ -28,6 +28,6 @@ node_list = result[1]
 #     print(node)
 
 gal.restart_nodes(node_list)
-gal.width_search(node_dict["A"], node_dict["J"])
+# gal.width_search(node_dict["A"], node_dict["J"])
 # gal.restart_nodes(node_list)
-# gal.depth_search(node_dict["A"], node_dict["J"])
+gal.depth_search(node_dict["A"], node_dict["J"])

@@ -57,14 +57,13 @@ def depth_search(start_node: Node, end_node: Node) -> list[Node] or None:
     while len(node_arr) > 0 and not found:
         if len(node_arr) == 0:
             break
-        current_node : Node = node_arr[0]
+        current_node : Node = node_arr.pop(0)
         if not current_node == end_node:
             for potential_node in current_node.linked_nodes:
                 if not potential_node in processed_nodes:
                     node_arr.append(potential_node)
                     potential_node.prev_node = current_node
             processed_nodes.append(current_node)    
-            node_arr.remove(current_node) 
         else: 
             found = True
     
@@ -90,16 +89,16 @@ def depth_search(start_node: Node, end_node: Node) -> list[Node] or None:
 def width_search(start_node: Node, end_node: Node) -> list[Node] or None:
 
     tmp_start_node : Node = start_node
-    node_stack : list[Node] = [tmp_start_node]
+    node_arr : list[Node] = [tmp_start_node]
     processed_nodes : list[Node] = []
     found : bool = False
 
-    while not len(node_stack) == 0 and not found:
-        current_node : Node = node_stack.pop(0)
+    while not len(node_arr) == 0 and not found:
+        current_node : Node = node_arr.pop(0)
         if not current_node == end_node:
             for next_node in current_node.linked_nodes:
-                if not next_node in processed_nodes and not next_node in node_stack:
-                    node_stack.append(next_node)
+                if not next_node in processed_nodes and not next_node in node_arr:
+                    node_arr.append(next_node)
                     next_node.prev_node = current_node
             processed_nodes.append(current_node)
         else:
