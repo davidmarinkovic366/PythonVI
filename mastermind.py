@@ -1,26 +1,28 @@
-# state = pokusaj za otkrivanje koda
+
+# start_state = pokusaj za otkrivanje koda (rucno unosimo)
 # result = kod koji pokusavako da otkrijemo
 def masterMind(start_state, result):
+
     open_set = set()            # za obradu
     closed_set = set()          # obradjene
     prev_state = {}             # istorija koraka
     g = {}                      # tezina samog cvora
-    heur = {}                      # procena kombinacije
+    heur = {}                   # procena kombinacije
     path = []                   # putanja (istorija)
 
     store = {}
     store[start_state] = {
         'combo': start_state,
         'used': start_state,
-        'free': list([i * (4 - start_state.count(i)) for i in ['w', 'y', 'r', 'g', 'b']])
+        'free': list(map(lambda x: x * (4 - start_state.count(x)), ['r', 'b', 'g', 'w', 'y']))
         # free: ['www', 'yyy', 'rrr', 'gggg', 'bbb']
     }
 
     found_end = False
     open_set.add(start_state)
-    g[start_state] = 0  # tezina cvora grafa
-    heur[start_state] = calc_heur(store[start_state], result) # procena grafa
-    prev_state[start_state] = None  # kako smo dosli do ove komb?
+    g[start_state] = 0                                          # tezina cvora grafa
+    heur[start_state] = calc_heur(store[start_state], result)   # procena grafa
+    prev_state[start_state] = None                              # kako smo dosli do ove komb?
 
     while open_set and not found_end:
         # Trazimo stanje sa min. heur:
@@ -80,10 +82,10 @@ def calc_heur(state, result):
 
 def findNext(start_state):
 
-    possibleStates = []                  # lista u koju postavljamo stanja
-    state = start_state['combo']        # kombinacija koju transformisemo
-    free = start_state['free']            # dostupne kuglice trenutne kombinacije
-    used = start_state['used']          # iskoriscene kuglice trenutne kombinacije
+    possibleStates = []                     # lista u koju postavljamo stanja
+    state = start_state['combo']            # kombinacija koju transformisemo
+    free = start_state['free']              # dostupne kuglice trenutne kombinacije
+    used = start_state['used']              # iskoriscene kuglice trenutne kombinacije
 
     # u trenutnoj situaciji, 'wryb', za sva dostupna slova probati sve moguce 
     # kombinacije, odnosno:
@@ -94,9 +96,6 @@ def findNext(start_state):
     #   (g:)['gryb', 'wgyb', 'wrgb', 'wryg']
     #   (b:)['bryb', 'wbyb', 'wrbb', 'wryb']
     # ]
-
-    # Naravno, neke kombinacije ce se istrositi pre ostalih, tako da necemo uvek da imamo 5
-    # lista, mozda nekad budu 2?
 
     for f in range(len(free)):
         # Provera da li smo elemente za dati simbol iskoristili?
@@ -127,10 +126,10 @@ def findNext(start_state):
 
     # Moze i ovako, svejedno, stanje je validno ako je manje od 20 kuglica istroseno:
     # return list(filter(lambda x: len(x) <= 20, possibleStates))
-    return list(filter(isValid, possibleStates))
+    return list(filter(is_valid, possibleStates))
 
 
-def isValid(state):
+def is_valid(state):
     return len(state['used']) <= 20
 
 end_state = input('Enter final state: ')
