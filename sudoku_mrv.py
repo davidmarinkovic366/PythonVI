@@ -70,8 +70,8 @@ def caclulate_stat(table: list[list[int]]) -> dict:
                     'available': list(filter(lambda x: x not in available, ['1', '2', '3', '4']))
                 }
     
-    for k in stat.keys():
-        print(k, ":", stat[k])
+    # for k in stat.keys():
+    #     print(k, ":", stat[k])
     
     return stat
 
@@ -89,6 +89,22 @@ def check_available(table: list[list[int]], x: int, y: int) -> list[int]:
     for j in range(0, 4):
         if not table[j][y] == '0' and table[j][y] not in constraints:
             constraints.add(table[j][y])
+
+    # Provera u podpolju? Moze i bez ovog, radi, ali celu tablu 4x4 gleda kao jednu kocku, ne razdvaja na 4 manje dimenzija 2x2:
+    # Nije ni navedeno u zadatku da treba, ali eto, moze;
+    posX = int(x / 2)
+    posY = int(y / 2)
+
+    if posX == 1:
+        posX += 1
+
+    if posY == 1:
+        posY += 1
+
+    for i in range(posX, posX+2):
+        for j in range(posY, posY+2):
+            if not table[i][j] == '0' and table[i][j] not in constraints:
+                constraints.add(table[i][j])
 
     # [1, 2, 3] npr;
     # print(list(constraints))
